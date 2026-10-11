@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+
+<html lang="ja" xmlns:th="http\://www.thymeleaf.org">
+
+
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+    <title>アカウント作成内容確認 | MoneySmile</title>
+
+
+
+    <style>
+
+        * {
+
+            box-sizing: border-box;
+
+        }
+
+
+
+        body {
+
+            margin: 0;
+
+            font-family: -apple-system, BlinkMacSystemFont,
+
+                "Segoe UI", "Noto Sans JP", sans-serif;
+
+            background: #f5f7fb;
+
+            color: #1f2937;
+
+        }
+
+
+
+        /* ヘッダー */
+
+        .header {
+
+            height: 70px;
+
+            background: #fff;
+
+            border-bottom: 1px solid #e5e7eb;
+
+
+
+            display: flex;
+
+            align-items: center;
+
+
+
+            padding: 0 40px;
+
+        }
+
+
+
+        .logo {
+
+            font-size: 24px;
+
+            font-weight: 700;
+
+            color: #2563eb;
+
+        }
+
+
+
+        /* ページ全体 */
+
+        .page-container {
+
+            display: flex;
+
+            justify-content: center;
+
+
+
+            padding: 55px 20px;
+
+        }
+
+
+
+        /* 確認カード */
+
+        .card {
+
+            width: 100%;
+
+            max-width: 620px;
+
+
+
+            background: #fff;
+
+            border-radius: 16px;
+
+
+
+            padding: 40px;
+
+
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+
+        }
+
+
+
+        /* タイトル */
+
+        .title {
+
+            margin: 0;
+
+
+
+            text-align: center;
+
+            font-size: 28px;
+
+        }
+
+
+
+        .subtitle {
+
+            margin: 10px 0 35px;
+
+
+
+            text-align: center;
+
+            color: #6b7280;
+
+            font-size: 14px;
+
+        }
+
+
+
+        /* 確認項目 */
+
+        .confirm-list {
+
+            border-top: 1px solid #e5e7eb;
+
+        }
+
+
+
+        .confirm-row {
+
+            display: grid;
+
+            grid-template-columns: 160px 1fr;
+
+            gap: 20px;
+
+
+
+            padding: 18px 4px;
+
+
+
+            border-bottom: 1px solid #e5e7eb;
+
+        }
+
+
+
+        .confirm-label {
+
+            font-weight: 600;
+
+        }
+
+
+
+        .confirm-value {
+
+            overflow-wrap: anywhere;
+
+        }
+
+
+
+        /* 口座情報 */
+
+        .section-title {
+
+            margin: 32px 0 10px;
+
+
+
+            font-size: 17px;
+
+        }
+
+
+
+        /* ボタン */
+
+        .button-row {
+
+            display: flex;
+
+            gap: 14px;
+
+
+
+            margin-top: 32px;
+
+        }
+
+
+
+        .button {
+
+            width: 100%;
+
+            height: 50px;
+
+
+
+            border-radius: 9px;
+
+
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+
+
+            cursor: pointer;
+
+        }
+
+
+
+        .back-button {
+
+            border: 1px solid #d1d5db;
+
+
+
+            background: #fff;
+
+            color: #374151;
+
+        }
+
+
+
+        .submit-button {
+
+            border: none;
+
+
+
+            background: #2563eb;
+
+            color: #fff;
+
+        }
+
+
+
+        .submit-button:disabled {
+
+            background: #93c5fd;
+
+
+
+            cursor: not-allowed;
+
+        }
+
+
+
+		/* メールアドレス認証 */
+
+		.email-verification {
+
+		    margin-top: 32px;
+
+		}
+
+
+
+		.verification-form {
+
+		    margin-top: 20px;
+
+		}
+
+
+
+		.verification-form label {
+
+		    display: block;
+
+		    margin-bottom: 8px;
+
+
+
+		    font-weight: 600;
+
+		}
+
+
+
+		.verification-form input {
+
+		    width: 100%;
+
+		    height: 48px;
+
+
+
+		    padding: 0 14px;
+
+		    margin-bottom: 12px;
+
+
+
+		    border: 1px solid #d1d5db;
+
+		    border-radius: 9px;
+
+
+
+		    font-size: 16px;
+
+		}
+
+
+
+		.verification-form input:focus {
+
+		    outline: none;
+
+		    border-color: #2563eb;
+
+		}
+
+
+
+		.verification-error {
+
+		    margin-top: 12px;
+
+		    color: #dc2626;
+
+		}
+
+
+
+		.verification-success {
+
+		    margin-top: 12px;
+
+		    color: #16a34a;
+
+		    font-weight: 600;
+
+		}
+
+
+
+
+
+        /* スマートフォン */
+
+        @media (max-width: 560px) {
+
+
+
+            .card {
+
+                padding: 28px 22px;
+
+            }
+
+
+
+            .confirm-row {
+
+                grid-template-columns: 1fr;
+
+                gap: 6px;
+
+            }
+
+
+
+            .button-row {
+
+                flex-direction: column;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+
+    <!-- ヘッダー -->
+
+    <header class="header">
+
+        <div class="logo">
+
+            MoneySmile
+
+        </div>
+
+    </header>
+
+
+
+    <!-- メイン -->
+
+    <main class="page-container">
+
+
+
+        <div class="card">
+
+
+
+            <!-- タイトル -->
+
+            <h1 class="title">
+
+                アカウント作成内容確認
+
+            </h1>
+
+
+
+            <p class="subtitle">
+
+                入力内容をご確認ください。
+
+            </p>
+
+
+
+
+
+            <!-- ========================================
+
+                 アカウント情報
+
+                 \======================================== -->
+
+            <div class="confirm-list">
+
+
+
+                <!-- 氏名 -->
+
+                <div class="confirm-row">
+
+
+
+                    <div class="confirm-label">
+
+                        氏名
+
+                    </div>
+
+
+
+                    <div class="confirm-value"
+
+                         th:text="${accountCreateDto.name}">
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- ニックネーム -->
+
+                <div class="confirm-row">
+
+
+
+                    <div class="confirm-label">
+
+                        ニックネーム
+
+                    </div>
+
+
+
+                    <div class="confirm-value"
+
+                         th:text="${accountCreateDto.nickname}">
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- メールアドレス -->
+
+                <div class="confirm-row">
+
+
+
+                    <div class="confirm-label">
+
+                        メールアドレス
+
+                    </div>
+
+
+
+                    <div class="confirm-value"
+
+                         th:text="${accountCreateDto.email}">
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- パスワード -->
+
+                <div class="confirm-row">
+
+
+
+                    <div class="confirm-label">
+
+                        パスワード
+
+                    </div>
+
+
+
+                    <div class="confirm-value">
+
+                        ********
+
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+                <!-- プラン -->
+
+                <div class="confirm-row">
+
+
+
+                    <div class="confirm-label">
+
+                        プラン
+
+                    </div>
+
+
+
+                    <div class="confirm-value"
+
+                         th:text="${accountCreateDto.paidPlanFlg}
+
+                            ? '有料プラン'
+
+                            : '無料プラン'">
+
+                    </div>
+
+
+
+                </div>
+
+
+
+				<!-- ========================================
+
+				     メールアドレス認証
+
+				     \======================================== -->
+
+				<div class="email-verification">
+
+
+
+				    <h2 class="section-title">
+
+				        メールアドレス認証
+
+				    </h2>
+
+
+
+				    <!-- 認証コード送信 -->
+
+				    <form th:action="@{/account-create/send-code}"
+
+				          method="post">
+
+
+
+				        <button type="submit"
+
+				                class="button submit-button">
+
+				            認証コードを送信
+
+				        </button>
+
+
+
+				    </form>
+
+
+
+				    <!-- 送信完了メッセージ -->
+
+				    <p th:if="${verificationMessage}"
+
+				       th:text="${verificationMessage}">
+
+				    </p>
+
+
+
+					<!-- 認証コード送信後に表示 -->
+
+					<div th:if="${verificationCodeSent}">
+
+
+
+					    <p class="verification-guide">
+
+					        10分以内に認証してください。
+
+					    </p>
+
+
+
+					    <p class="verification-timer">
+
+					        残り時間：
+
+					        <span id="countdown">10:00</span>
+
+					    </p>
+
+
+
+					    <!-- 認証コード入力 -->
+
+					    <form th:action="@{/account-create/verify-code}"
+
+					          method="post"
+
+					          class="verification-form">
+
+
+
+					        <label for="verificationCode">
+
+					            認証コード
+
+					        </label>
+
+
+
+					        <input type="text"
+
+					               id="verificationCode"
+
+					               name="verificationCode"
+
+					               maxlength="6"
+
+					               inputmode="numeric"
+
+					               placeholder="6桁の認証コードを入力">
+
+
+
+					        <button type="submit"
+
+					                class="button submit-button"
+
+									id="verifyButton">
+
+					            認証する
+
+					        </button>
+
+
+
+					    </form>
+
+
+
+					</div>
+
+
+
+				    <!-- 認証エラー -->
+
+				    <p th:if="${verificationError}"
+
+				       class="verification-error"
+
+				       th:text="${verificationError}">
+
+				    </p>
+
+
+
+				    <!-- 認証成功 -->
+
+				    <p th:if="${emailVerified}"
+
+				       class="verification-success">
+
+				        メールアドレスの認証が完了しました。
+
+				    </p>
+
+
+
+				</div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- ========================================
+
+                 口座情報
+
+                 有料プランの場合のみ表示
+
+                 \======================================== -->
+
+            <div th:if="${accountCreateDto.paidPlanFlg}">
+
+
+
+                <h2 class="section-title">
+
+                    口座情報
+
+                </h2>
+
+
+
+                <div class="confirm-list">
+
+
+
+                    <!-- 銀行名 -->
+
+                    <div class="confirm-row">
+
+
+
+                        <div class="confirm-label">
+
+                            銀行名
+
+                        </div>
+
+
+
+                        <div class="confirm-value"
+
+                             th:text="${accountCreateDto.bankName}">
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <!-- 口座番号 -->
+
+                    <div class="confirm-row">
+
+
+
+                        <div class="confirm-label">
+
+                            口座番号
+
+                        </div>
+
+
+
+                        <div class="confirm-value"
+
+                             th:text="${accountCreateDto.accountNumber}">
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+
+
+                    <!-- 口座名義 -->
+
+                    <div class="confirm-row">
+
+
+
+                        <div class="confirm-label">
+
+                            口座名義
+
+                        </div>
+
+
+
+                        <div class="confirm-value"
+
+                             th:text="${accountCreateDto.accountHolder}">
+
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+
+
+
+
+            <!-- ========================================
+
+                 ボタン
+
+                 \======================================== -->
+
+            <div class="button-row">
+
+
+
+                <!-- 入力画面へ戻る -->
+
+                <form th:action="@{/account-create/back}"
+
+                      method="post"
+
+                      style="flex: 1;">
+
+
+
+                    <button type="submit"
+
+                            class="button back-button">
+
+                        入力内容を修正する
+
+                    </button>
+
+
+
+                </form>
+
+
+
+
+
+                <!-- アカウント登録 -->
+
+                <form th:action="@{/account-create}"
+
+                      method="post"
+
+                      id="registerForm"
+
+                      style="flex: 1;">
+
+
+
+					<button type="submit"
+
+					        class="button submit-button"
+
+					        id="registerButton"
+
+					        th:disabled="${emailVerified != true}">
+
+					    登録する
+
+					</button>
+
+
+
+                </form>
+
+
+
+            </div>
+
+
+
+        </div>
+
+
+
+    </main>
+
+
+
+
+
+    <!-- ========================================
+
+         JavaScript
+
+         \======================================== -->
+
+		 <script th:inline="javascript">
+
+
+
+		     // 登録ボタンの二重送信を防止する
+
+		     document
+
+		         .getElementById("registerForm")
+
+		         .addEventListener("submit", function () {
+
+
+
+		             const button =
+
+		                 document.getElementById("registerButton");
+
+
+
+		             button.disabled = true;
+
+		             button.textContent = "登録中...";
+
+		         });
+
+
+
+
+
+		     // ========================================
+
+		     // 認証コードの残り時間を表示する
+
+		     // ========================================
+
+
+
+		     const expireAtText =
+
+		         /*[[${verificationExpireAt}]]*/ null;
+
+
+
+		     const countdown =
+
+		         document.getElementById("countdown");
+
+
+
+			 const verificationCode =
+
+				 document.getElementById("verificationCode");
+
+
+
+	 		 const verifyButton =
+
+				 document.getElementById("verifyButton");				 
+
+
+
+		     if (expireAtText && countdown) {
+
+
+
+		         // サーバーから受け取った有効期限
+
+		         const expireAt =
+
+		             new Date(expireAtText);
+
+
+
+		         function updateCountdown() {
+
+
+
+		             // 現在時刻
+
+		             const now =
+
+		                 new Date();
+
+
+
+		             // 有効期限までの残り時間（ミリ秒）
+
+		             const remaining =
+
+		                 expireAt.getTime() - now.getTime();
+
+
+
+						 if (remaining <= 0) {
+
+
+
+						     countdown.textContent = "00:00";
+
+
+
+							 clearInterval(timerId);
+
+
+
+						     // 認証コード入力欄を無効化
+
+						     if (verificationCode) {
+
+						         verificationCode.disabled = true;
+
+						     }
+
+
+
+						     // 認証ボタンを無効化
+
+						     if (verifyButton) {
+
+						         verifyButton.disabled = true;
+
+						     }
+
+
+
+						     return;
+
+						 }
+
+
+
+		             // 残り秒数
+
+		             const totalSeconds =
+
+		                 Math.ceil(remaining / 1000);
+
+
+
+		             // 分
+
+		             const minutes =
+
+		                 Math.floor(totalSeconds / 60);
+
+
+
+		             // 秒
+
+		             const seconds =
+
+		                 totalSeconds % 60;
+
+
+
+		             // 09:05 のような形式に変換
+
+		             countdown.textContent =
+
+		                 String(minutes).padStart(2, "0")
+
+		                 + ":"
+
+		                 + String(seconds).padStart(2, "0");
+
+		         }
+
+
+
+         // タイマーID
+         let timerId = null;
+
+         // 画面表示時に一度実行
+         updateCountdown();
+
+         // 有効期限内の場合のみ1秒ごとに更新
+         if (verificationCode && !verificationCode.disabled) {
+
+             timerId = setInterval(
+                 updateCountdown,
+                 1000
+             );
+         }
+
+		     }
+
+
+
+		 </script>
+
+
+
+</body>
+
+</html>

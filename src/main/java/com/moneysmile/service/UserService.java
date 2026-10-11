@@ -34,6 +34,19 @@ public class UserService {
     }
 
     /**
+     * メールアドレスが登録可能か確認する。
+     *
+     * @param email メールアドレス
+     * @throws BusinessException メールアドレスが既に登録されている場合
+     */
+    public void validateEmailAvailable(String email) {
+
+        if (userDao.existsByEmail(email)) {
+            throw new BusinessException(MessageConst.MSG_E0001, "email");
+        }
+    }
+
+    /**
      * アカウントを登録する。
      *
      * @param dto アカウント作成画面から受け取った入力情報
@@ -42,10 +55,8 @@ public class UserService {
      */
     public void createAccount(AccountCreateDto dto) {
 
-        // メールアドレスの重複チェック
-        if (userDao.existsByEmail(dto.getEmail())) {
-            throw new BusinessException(MessageConst.MSG_E0001, "email");
-        }
+        // 登録直前にもメールアドレスの重複を再確認
+        validateEmailAvailable(dto.getEmail());
 
         // 有料プランの場合、未入力の口座情報をチェック
         if (Boolean.TRUE.equals(dto.getPaidPlanFlg())) {

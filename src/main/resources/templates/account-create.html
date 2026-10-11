@@ -137,6 +137,7 @@
         }
 
         .bank-section {
+            display: none;
             border-top: 1px solid #e5e7eb;
             margin-top: 30px;
             padding-top: 28px;
@@ -232,6 +233,28 @@
             color: #9ca3af;
             cursor: not-allowed;
         }
+
+        /* パスワード表示切替 */
+        .password-wrapper { position: relative; }
+        .password-wrapper input { padding-right: 82px; }
+        .password-toggle {
+            position: absolute; right: 10px; top: 50%;
+            transform: translateY(-50%);
+            border: none; background: transparent; color: #2563eb;
+            font-size: 13px; font-weight: 600; cursor: pointer; padding: 6px;
+        }
+
+        /* 文字数表示 */
+        .char-count {
+            margin-top: 6px; text-align: right;
+            color: #6b7280; font-size: 12px;
+        }
+        .char-count.over-limit { color: #dc2626; font-weight: 600; }
+
+        .submit-button:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+        }
     </style>
 </head>
 
@@ -256,7 +279,7 @@
              th:text="${errorMessage}">
         </div>
 
-        <form th:action="@{/account-create}"
+        <form th:action="@{/account-create/confirm}"
               th:object="${accountCreateDto}"
               method="post" novalidate>
 
@@ -271,6 +294,7 @@
                        th:field="*{name}"
                        id="name"
                        placeholder="山田 太郎">
+                <div class="char-count" id="nameCount">0 / 30</div>
             </div>
 
             <!-- ニックネーム -->
@@ -284,6 +308,7 @@
                        th:field="*{nickname}"
                        id="nickname"
                        placeholder="たろう">
+                <div class="char-count" id="nicknameCount">0 / 20</div>
             </div>
 
             <!-- メールアドレス -->
@@ -306,10 +331,17 @@
                     <span class="required">必須</span>
                 </label>
 
-                <input type="password"
-                       th:field="*{password}"
-                       id="password"
-                       placeholder="8～20文字">
+                <div class="password-wrapper">
+                    <input type="password"
+                           th:field="*{password}"
+                           id="password"
+                           placeholder="8～20文字">
+                    <button type="button"
+                            class="password-toggle"
+                            id="passwordToggle"
+                            aria-label="パスワードを表示">表示</button>
+                </div>
+                <div class="char-count" id="passwordCount">0 / 20</div>
             </div>
 
             <!-- 有料プラン -->
@@ -339,36 +371,48 @@
                 </p>
 
                 <div class="form-group">
-                    <label>銀行名</label>
+                    <label>
+                        銀行名
+                        <span class="required">必須</span>
+                    </label>
 
                     <input type="text"
                            th:field="*{bankName}"
                            id="bankName"
                            placeholder="○○銀行">
+                    <div class="char-count" id="bankNameCount">0 / 30</div>
                 </div>
 
                 <div class="form-group">
-                    <label>口座番号</label>
+                    <label>
+                        口座番号
+                        <span class="required">必須</span>
+                    </label>
 
                     <input type="text"
                            th:field="*{accountNumber}"
                            id="accountNumber"
                            placeholder="1234567">
+                    <div class="char-count" id="accountNumberCount">0 / 7</div>
                 </div>
 
                 <div class="form-group">
-                    <label>口座名義</label>
+                    <label>
+                        口座名義
+                        <span class="required">必須</span>
+                    </label>
 
                     <input type="text"
                            th:field="*{accountHolder}"
                            id="accountHolder"
                            placeholder="ヤマダ タロウ">
+                    <div class="char-count" id="accountHolderCount">0 / 30</div>
                 </div>
 
             </div>
 
-            <button type="submit" class="submit-button">
-                アカウントを作成
+            <button type="submit" class="submit-button" id="submitButton">
+                入力内容を確認
             </button>
 
         </form>
@@ -392,6 +436,19 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("accountNumber"),
         document.getElementById("accountHolder")
     ];
+
+    const password = document.getElementById("password");
+    const passwordToggle = document.getElementById("passwordToggle");
+    const submitButton = document.getElementById("submitButton");
+
+    const countSettings = {
+        name: 30,
+        nickname: 20,
+        password: 20,
+        bankName: 30,
+        accountNumber: 7,
+        accountHolder: 30
+    };
 
     const rules = {
         name: {
@@ -442,6 +499,36 @@ document.addEventListener("DOMContentLoaded", function () {
             tooltip.textContent = "";
             tooltip.classList.remove("show");
         }
+    }
+
+    function updateCharCount(field) {
+        const max = countSettings[field.id];
+        if (!max) return;
+
+        const countElement = document.getElementById(field.id + "Count");
+        if (!countElement) return;
+
+        const length = field.value.length;
+        countElement.textContent = length + " / " + max;
+        countElement.classList.toggle("over-limit", length > max);
+    }
+
+    function updateAllCharCounts() {
+        Object.keys(countSettings).forEach(function (id) {
+            const field = document.getElementById(id);
+            if (field) updateCharCount(field);
+        });
+    }
+
+    function togglePasswordVisibility() {
+        const showing = password.type === "text";
+        password.type = showing ? "password" : "text";
+        passwordToggle.textContent = showing ? "表示" : "非表示";
+        passwordToggle.setAttribute(
+            "aria-label",
+            showing ? "パスワードを表示" : "パスワードを非表示"
+        );
+        password.focus();
     }
 
     function validateField(field, submitCheck) {
@@ -545,14 +632,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function changeBankInputState() {
         const enabled = paidPlanFlg.checked;
+        const bankSection = document.querySelector(".bank-section");
+
+        bankSection.style.display = enabled ? "block" : "none";
+
         bankFields.forEach(function (field) {
             field.disabled = !enabled;
             if (!enabled) {
                 field.value = "";
                 clearError(field);
+                updateCharCount(field);
             }
         });
     }
+
+    passwordToggle.addEventListener("click", togglePasswordVisibility);
 
     paidPlanFlg.addEventListener("change", function () {
         changeBankInputState();
@@ -564,6 +658,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const fields = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
     fields.forEach(function (field) {
         field.addEventListener("input", function () {
+            updateCharCount(field);
             validateField(field, false);
         });
         field.addEventListener("blur", function () {
@@ -583,7 +678,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (firstError) {
             event.preventDefault();
             firstError.focus();
+            return;
         }
+
+        // 二重送信を防止する。
+        submitButton.disabled = true;
+        submitButton.textContent = "確認中...";
     });
 
     // サーバー側で検出した業務エラーを同じUIで表示する。
@@ -598,6 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     changeBankInputState();
+    updateAllCharCounts();
 });
 </script>
 
