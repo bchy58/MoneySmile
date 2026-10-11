@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アカウント作成 | MoneySmile</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         "Noto Sans JP", sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .page-container {
+            display: flex;
+            justify-content: center;
+            padding: 55px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 620px;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        .title {
+            margin: 0;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            margin: 10px 0 35px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .required {
+            margin-left: 6px;
+            color: #ef4444;
+            font-size: 12px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .error {
+            margin-top: 6px;
+            color: #dc2626;
+            font-size: 13px;
+        }
+
+        .global-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #b91c1c;
+            border-radius: 8px;
+            padding: 12px 14px;
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+
+        .plan-box {
+            margin: 28px 0;
+            padding: 18px;
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+            border-radius: 10px;
+        }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .checkbox-row label {
+            margin: 0;
+        }
+
+        .plan-description {
+            margin: 8px 0 0 26px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .bank-section {
+            border-top: 1px solid #e5e7eb;
+            margin-top: 30px;
+            padding-top: 28px;
+        }
+
+        .section-title {
+            margin: 0 0 6px;
+            font-size: 17px;
+        }
+
+        .section-description {
+            margin: 0 0 22px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        .submit-button {
+            width: 100%;
+            height: 50px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background: #1d4ed8;
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .login-link a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* 入力チェックエラー */
+        .form-group {
+            position: relative;
+        }
+
+        .input-error {
+            background-color: #fff7cc !important;
+            border-color: #eab308 !important;
+        }
+
+        .validation-tooltip {
+            display: none;
+            position: absolute;
+            left: 12px;
+            top: calc(100% - 2px);
+            z-index: 30;
+            max-width: calc(100% - 24px);
+            padding: 8px 11px;
+            background: #fff3b0;
+            border: 1px solid #d6a700;
+            border-radius: 6px;
+            color: #5f4700;
+            font-size: 13px;
+            line-height: 1.4;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+        }
+
+        .validation-tooltip::before {
+            content: "";
+            position: absolute;
+            top: -7px;
+            left: 18px;
+            width: 12px;
+            height: 12px;
+            background: #fff3b0;
+            border-left: 1px solid #d6a700;
+            border-top: 1px solid #d6a700;
+            transform: rotate(45deg);
+        }
+
+        .validation-tooltip.show {
+            display: block;
+        }
+
+        input:disabled {
+            background: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">MoneySmile</div>
+</header>
+
+<main class="page-container">
+
+    <div class="card">
+
+        <h1 class="title">アカウント作成</h1>
+        <p class="subtitle">
+            MoneySmileを始めるための情報を入力してください
+        </p>
+
+        <!-- Service側の業務エラー -->
+        <div class="global-error"
+             th:if="${errorMessage}"
+             th:text="${errorMessage}">
+        </div>
+
+        <form th:action="@{/account-create}"
+              th:object="${accountCreateDto}"
+              method="post" novalidate>
+
+            <!-- 氏名 -->
+            <div class="form-group">
+                <label>
+                    氏名
+                    <span class="required">必須</span>
+                </label>
+
+                <input type="text"
+                       th:field="*{name}"
+                       id="name"
+                       placeholder="山田 太郎">
+            </div>
+
+            <!-- ニックネーム -->
+            <div class="form-group">
+                <label>
+                    ニックネーム
+                    <span class="required">必須</span>
+                </label>
+
+                <input type="text"
+                       th:field="*{nickname}"
+                       id="nickname"
+                       placeholder="たろう">
+            </div>
+
+            <!-- メールアドレス -->
+            <div class="form-group">
+                <label>
+                    メールアドレス
+                    <span class="required">必須</span>
+                </label>
+
+                <input type="email"
+                       th:field="*{email}"
+                       id="email"
+                       placeholder="example@email.com">
+            </div>
+
+            <!-- パスワード -->
+            <div class="form-group">
+                <label>
+                    パスワード
+                    <span class="required">必須</span>
+                </label>
+
+                <input type="password"
+                       th:field="*{password}"
+                       id="password"
+                       placeholder="8～20文字">
+            </div>
+
+            <!-- 有料プラン -->
+            <div class="plan-box">
+                <div class="checkbox-row">
+                    <input type="checkbox"
+                           th:field="*{paidPlanFlg}"
+                           id="paidPlanFlg">
+
+                    <label for="paidPlanFlg">
+                        有料プランを利用する
+                    </label>
+                </div>
+
+                <p class="plan-description">
+                    年間収支閲覧・予算設定などの機能を利用できます。
+                </p>
+            </div>
+
+            <!-- 口座情報 -->
+            <div class="bank-section">
+
+                <h2 class="section-title">口座情報</h2>
+
+                <p class="section-description">
+                    有料プランをご利用の場合は入力してください。
+                </p>
+
+                <div class="form-group">
+                    <label>銀行名</label>
+
+                    <input type="text"
+                           th:field="*{bankName}"
+                           id="bankName"
+                           placeholder="○○銀行">
+                </div>
+
+                <div class="form-group">
+                    <label>口座番号</label>
+
+                    <input type="text"
+                           th:field="*{accountNumber}"
+                           id="accountNumber"
+                           placeholder="1234567">
+                </div>
+
+                <div class="form-group">
+                    <label>口座名義</label>
+
+                    <input type="text"
+                           th:field="*{accountHolder}"
+                           id="accountHolder"
+                           placeholder="ヤマダ タロウ">
+                </div>
+
+            </div>
+
+            <button type="submit" class="submit-button">
+                アカウントを作成
+            </button>
+
+        </form>
+
+        <div class="login-link">
+            すでにアカウントをお持ちですか？
+            <a th:href="@{/login}">ログイン</a>
+        </div>
+
+    </div>
+
+</main>
+
+
+<script th:inline="javascript">
+document.addEventListener("DOMContentLoaded", function () {
+    const form = document.querySelector("form");
+    const paidPlanFlg = document.getElementById("paidPlanFlg");
+    const bankFields = [
+        document.getElementById("bankName"),
+        document.getElementById("accountNumber"),
+        document.getElementById("accountHolder")
+    ];
+
+    const rules = {
+        name: {
+            required: "氏名を入力してください。",
+            max: 30,
+            maxMessage: "氏名は30文字以内で入力してください。"
+        },
+        nickname: {
+            required: "ニックネームを入力してください。",
+            max: 20,
+            maxMessage: "ニックネームは20文字以内で入力してください。"
+        },
+        email: {
+            required: "メールアドレスを入力してください。",
+            max: 20,
+            maxMessage: "メールアドレスは20文字以内で入力してください。"
+        },
+        password: {
+            required: "パスワードを入力してください。",
+            min: 8,
+            max: 20
+        }
+    };
+
+    function getTooltip(field) {
+        let tooltip = field.parentElement.querySelector(".validation-tooltip");
+        if (!tooltip) {
+            tooltip = document.createElement("div");
+            tooltip.className = "validation-tooltip";
+            field.insertAdjacentElement("afterend", tooltip);
+        }
+        return tooltip;
+    }
+
+    function showError(field, message) {
+        if (!field || field.disabled) return;
+        field.classList.add("input-error");
+        const tooltip = getTooltip(field);
+        tooltip.textContent = message;
+        tooltip.classList.add("show");
+    }
+
+    function clearError(field) {
+        if (!field) return;
+        field.classList.remove("input-error");
+        const tooltip = field.parentElement.querySelector(".validation-tooltip");
+        if (tooltip) {
+            tooltip.textContent = "";
+            tooltip.classList.remove("show");
+        }
+    }
+
+    function validateField(field, submitCheck) {
+        if (!field || field.disabled) {
+            clearError(field);
+            return true;
+        }
+
+        const value = field.value;
+        const trimmed = value.trim();
+
+        if (field.id === "name" || field.id === "nickname") {
+            const rule = rules[field.id];
+            if (submitCheck && trimmed === "") {
+                showError(field, rule.required);
+                return false;
+            }
+            if (value.length > rule.max) {
+                showError(field, rule.maxMessage);
+                return false;
+            }
+        }
+
+        if (field.id === "email") {
+            if (submitCheck && trimmed === "") {
+                showError(field, rules.email.required);
+                return false;
+            }
+            if (value.length > rules.email.max) {
+                showError(field, rules.email.maxMessage);
+                return false;
+            }
+            if (value !== "") {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(value)) {
+                    showError(field, "メールアドレスの形式が正しくありません。「@」を含む正しい形式で入力してください。");
+                    return false;
+                }
+            }
+        }
+
+        if (field.id === "password") {
+            if (submitCheck && value === "") {
+                showError(field, rules.password.required);
+                return false;
+            }
+            if (/\s/.test(value)) {
+                showError(field, "パスワードに空白文字は使用できません。");
+                return false;
+            }
+            if (value.length > rules.password.max) {
+                showError(field, "パスワードは20文字以内で入力してください。");
+                return false;
+            }
+            if (value !== "" && value.length < rules.password.min) {
+                showError(field, "パスワードは8文字以上で入力してください。");
+                return false;
+            }
+        }
+
+        if (field.id === "bankName") {
+            if (paidPlanFlg.checked && submitCheck && trimmed === "") {
+                showError(field, "銀行名を入力してください。");
+                return false;
+            }
+            if (value.length > 30) {
+                showError(field, "銀行名は30文字以内で入力してください。");
+                return false;
+            }
+        }
+
+        if (field.id === "accountNumber") {
+            if (paidPlanFlg.checked && submitCheck && trimmed === "") {
+                showError(field, "口座番号を入力してください。");
+                return false;
+            }
+            if (value !== "" && !/^[0-9]{1,7}$/.test(value)) {
+                showError(field, "口座番号は7桁以内の半角数字で入力してください。");
+                return false;
+            }
+        }
+
+        if (field.id === "accountHolder") {
+            if (paidPlanFlg.checked && submitCheck && trimmed === "") {
+                showError(field, "口座名義を入力してください。");
+                return false;
+            }
+            if (value.length > 30) {
+                showError(field, "口座名義は30文字以内で入力してください。");
+                return false;
+            }
+            if (value !== "" && !/^[ァ-ヶー　]+$/.test(value)) {
+                showError(field, "口座名義は全角カタカナで入力してください。");
+                return false;
+            }
+        }
+
+        clearError(field);
+        return true;
+    }
+
+    function changeBankInputState() {
+        const enabled = paidPlanFlg.checked;
+        bankFields.forEach(function (field) {
+            field.disabled = !enabled;
+            if (!enabled) {
+                field.value = "";
+                clearError(field);
+            }
+        });
+    }
+
+    paidPlanFlg.addEventListener("change", function () {
+        changeBankInputState();
+        if (paidPlanFlg.checked) {
+            document.getElementById("bankName").focus();
+        }
+    });
+
+    const fields = form.querySelectorAll('input[type="text"], input[type="email"], input[type="password"]');
+    fields.forEach(function (field) {
+        field.addEventListener("input", function () {
+            validateField(field, false);
+        });
+        field.addEventListener("blur", function () {
+            if (field.value !== "") {
+                validateField(field, false);
+            }
+        });
+    });
+
+    form.addEventListener("submit", function (event) {
+        let firstError = null;
+        fields.forEach(function (field) {
+            if (!validateField(field, true) && firstError === null) {
+                firstError = field;
+            }
+        });
+        if (firstError) {
+            event.preventDefault();
+            firstError.focus();
+        }
+    });
+
+    // サーバー側で検出した業務エラーを同じUIで表示する。
+    const serverMessage = /*[[${errorMessage}]]*/ null;
+    const serverFieldName = /*[[${focusField}]]*/ null;
+    if (serverMessage && serverFieldName) {
+        const serverField = document.querySelector('[name="' + serverFieldName + '"]');
+        if (serverField) {
+            showError(serverField, serverMessage);
+            serverField.focus();
+        }
+    }
+
+    changeBankInputState();
+});
+</script>
+
+</body>
+</html>
