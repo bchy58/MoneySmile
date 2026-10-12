@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.moneysmile.constant.MessageConst;
 import com.moneysmile.dao.UserDao;
 import com.moneysmile.dto.AccountCreateDto;
+import com.moneysmile.dto.LoginDto;
 import com.moneysmile.entity.User;
 import com.moneysmile.exception.BusinessException;
 import com.moneysmile.util.StringUtil;
@@ -19,14 +20,14 @@ public class UserService {
     /** ユーザー情報のDB操作を行うDAO。 */
     private final UserDao userDao;
 
-    /** パスワードのハッシュ化を行うエンコーダー。 */
+    /** パスワードのハッシュ化および照合を行うエンコーダー。 */
     private final PasswordEncoder passwordEncoder;
 
     /**
      * ユーザーサービスを生成する。
      *
      * @param userDao ユーザー情報のDB操作を行うDAO
-     * @param passwordEncoder パスワードのハッシュ化を行うエンコーダー
+     * @param passwordEncoder パスワードのハッシュ化および照合を行うエンコーダー
      */
     public UserService(UserDao userDao, PasswordEncoder passwordEncoder) {
         this.userDao = userDao;
@@ -99,4 +100,38 @@ public class UserService {
         // DAOを呼び出してユーザー情報をDBに登録
         userDao.insert(user);
     }
+    
+    /**
+     * ログイン処理を行う。
+     *
+     * @param dto ログイン情報
+     * @return ログインユーザー
+     * @throws BusinessException メールアドレスが登録されていない場合、
+     *                           またはパスワードが一致しない場合
+     */
+    public User loginAccount(LoginDto dto) {
+
+        // メールアドレスから有効なユーザー情報を取得
+        User user = userDao.findActiveByEmail(dto.getEmail());
+
+        // メールアドレスが登録されていない場合
+        if (user == null) {
+            throw new BusinessException(
+                    MessageConst.MSG_E0009,
+                    "email");
+        }
+
+        // パスワードが一致しない場合
+        if (!passwordEncoder.matches(
+                dto.getPassword(),
+                user.getPassword())) {
+
+            throw new BusinessException(
+                    MessageConst.MSG_E0010,
+                    "password");
+        }
+
+        return user;
+    } 
+
 }

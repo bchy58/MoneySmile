@@ -2,19 +2,13 @@
 
 <html lang="ja" xmlns:th="http\://www.thymeleaf.org">
 
-
-
 <head>
 
     <meta charset="UTF-8">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-
     <title>アカウント作成内容確認 | MoneySmile</title>
-
-
 
     <style>
 
@@ -23,8 +17,6 @@
             box-sizing: border-box;
 
         }
-
-
 
         body {
 
@@ -40,8 +32,6 @@
 
         }
 
-
-
         /* ヘッダー */
 
         .header {
@@ -52,19 +42,13 @@
 
             border-bottom: 1px solid #e5e7eb;
 
-
-
             display: flex;
 
             align-items: center;
 
-
-
             padding: 0 40px;
 
         }
-
-
 
         .logo {
 
@@ -76,8 +60,6 @@
 
         }
 
-
-
         /* ページ全体 */
 
         .page-container {
@@ -86,13 +68,9 @@
 
             justify-content: center;
 
-
-
             padding: 55px 20px;
 
         }
-
-
 
         /* 確認カード */
 
@@ -102,23 +80,15 @@
 
             max-width: 620px;
 
-
-
             background: #fff;
 
             border-radius: 16px;
 
-
-
             padding: 40px;
-
-
 
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
 
         }
-
-
 
         /* タイトル */
 
@@ -126,21 +96,15 @@
 
             margin: 0;
 
-
-
             text-align: center;
 
             font-size: 28px;
 
         }
 
-
-
         .subtitle {
 
             margin: 10px 0 35px;
-
-
 
             text-align: center;
 
@@ -150,8 +114,6 @@
 
         }
 
-
-
         /* 確認項目 */
 
         .confirm-list {
@@ -159,8 +121,6 @@
             border-top: 1px solid #e5e7eb;
 
         }
-
-
 
         .confirm-row {
 
@@ -170,17 +130,11 @@
 
             gap: 20px;
 
-
-
             padding: 18px 4px;
-
-
 
             border-bottom: 1px solid #e5e7eb;
 
         }
-
-
 
         .confirm-label {
 
@@ -188,15 +142,11 @@
 
         }
 
-
-
         .confirm-value {
 
             overflow-wrap: anywhere;
 
         }
-
-
 
         /* 口座情報 */
 
@@ -204,13 +154,9 @@
 
             margin: 32px 0 10px;
 
-
-
             font-size: 17px;
 
         }
-
-
 
         /* ボタン */
 
@@ -220,13 +166,9 @@
 
             gap: 14px;
 
-
-
             margin-top: 32px;
 
         }
-
-
 
         .button {
 
@@ -234,29 +176,19 @@
 
             height: 50px;
 
-
-
             border-radius: 9px;
-
-
 
             font-size: 15px;
 
             font-weight: 600;
 
-
-
             cursor: pointer;
 
         }
 
-
-
         .back-button {
 
             border: 1px solid #d1d5db;
-
-
 
             background: #fff;
 
@@ -264,13 +196,9 @@
 
         }
 
-
-
         .submit-button {
 
             border: none;
-
-
 
             background: #2563eb;
 
@@ -278,125 +206,91 @@
 
         }
 
-
-
         .submit-button:disabled {
 
             background: #93c5fd;
-
-
 
             cursor: not-allowed;
 
         }
 
+        /* メールアドレス認証 */
 
+        .email-verification {
 
-		/* メールアドレス認証 */
+            margin-top: 32px;
 
-		.email-verification {
+        }
 
-		    margin-top: 32px;
+        .verification-form {
 
-		}
+            margin-top: 20px;
 
+        }
 
+        .verification-form label {
 
-		.verification-form {
+            display: block;
 
-		    margin-top: 20px;
+            margin-bottom: 8px;
 
-		}
+            font-weight: 600;
 
+        }
 
+        .verification-form input {
 
-		.verification-form label {
+            width: 100%;
 
-		    display: block;
+            height: 48px;
 
-		    margin-bottom: 8px;
+            padding: 0 14px;
 
+            margin-bottom: 12px;
 
+            border: 1px solid #d1d5db;
 
-		    font-weight: 600;
+            border-radius: 9px;
 
-		}
+            font-size: 16px;
 
+        }
 
+        .verification-form input:focus {
 
-		.verification-form input {
+            outline: none;
 
-		    width: 100%;
+            border-color: #2563eb;
 
-		    height: 48px;
+        }
 
+        .verification-error {
 
+            margin-top: 12px;
 
-		    padding: 0 14px;
+            color: #dc2626;
 
-		    margin-bottom: 12px;
+        }
 
+        .verification-success {
 
+            margin-top: 12px;
 
-		    border: 1px solid #d1d5db;
+            color: #16a34a;
 
-		    border-radius: 9px;
+            font-weight: 600;
 
-
-
-		    font-size: 16px;
-
-		}
-
-
-
-		.verification-form input:focus {
-
-		    outline: none;
-
-		    border-color: #2563eb;
-
-		}
-
-
-
-		.verification-error {
-
-		    margin-top: 12px;
-
-		    color: #dc2626;
-
-		}
-
-
-
-		.verification-success {
-
-		    margin-top: 12px;
-
-		    color: #16a34a;
-
-		    font-weight: 600;
-
-		}
-
-
-
-
+        }
 
         /* スマートフォン */
 
         @media (max-width: 560px) {
-
-
 
             .card {
 
                 padding: 28px 22px;
 
             }
-
-
 
             .confirm-row {
 
@@ -405,8 +299,6 @@
                 gap: 6px;
 
             }
-
-
 
             .button-row {
 
@@ -420,11 +312,7 @@
 
 </head>
 
-
-
 <body>
-
-
 
     <!-- ヘッダー -->
 
@@ -438,17 +326,11 @@
 
     </header>
 
-
-
     <!-- メイン -->
 
     <main class="page-container">
 
-
-
         <div class="card">
-
-
 
             <!-- タイトル -->
 
@@ -458,17 +340,11 @@
 
             </h1>
 
-
-
             <p class="subtitle">
 
                 入力内容をご確認ください。
 
             </p>
-
-
-
-
 
             <!-- ========================================
 
@@ -478,13 +354,9 @@
 
             <div class="confirm-list">
 
-
-
                 <!-- 氏名 -->
 
                 <div class="confirm-row">
-
-
 
                     <div class="confirm-label">
 
@@ -492,27 +364,17 @@
 
                     </div>
 
-
-
                     <div class="confirm-value"
 
                          th:text="${accountCreateDto.name}">
 
                     </div>
 
-
-
                 </div>
-
-
-
-
 
                 <!-- ニックネーム -->
 
                 <div class="confirm-row">
-
-
 
                     <div class="confirm-label">
 
@@ -520,27 +382,17 @@
 
                     </div>
 
-
-
                     <div class="confirm-value"
 
                          th:text="${accountCreateDto.nickname}">
 
                     </div>
 
-
-
                 </div>
-
-
-
-
 
                 <!-- メールアドレス -->
 
                 <div class="confirm-row">
-
-
 
                     <div class="confirm-label">
 
@@ -548,27 +400,17 @@
 
                     </div>
 
-
-
                     <div class="confirm-value"
 
                          th:text="${accountCreateDto.email}">
 
                     </div>
 
-
-
                 </div>
-
-
-
-
 
                 <!-- パスワード -->
 
                 <div class="confirm-row">
-
-
 
                     <div class="confirm-label">
 
@@ -576,35 +418,23 @@
 
                     </div>
 
-
-
                     <div class="confirm-value">
 
                         ********
 
                     </div>
 
-
-
                 </div>
-
-
-
-
 
                 <!-- プラン -->
 
                 <div class="confirm-row">
-
-
 
                     <div class="confirm-label">
 
                         プラン
 
                     </div>
-
-
 
                     <div class="confirm-value"
 
@@ -616,171 +446,127 @@
 
                     </div>
 
+                </div>
 
+                <!-- ========================================
+
+                     メールアドレス認証
+
+                     \======================================== -->
+
+                <div class="email-verification">
+
+                    <h2 class="section-title">
+
+                        メールアドレス認証
+
+                    </h2>
+
+                    <!-- 認証コード送信 -->
+
+                    <form th:action="@{/account-create/send-code}"
+
+                          method="post">
+
+                        <button type="submit"
+
+                                class="button submit-button">
+
+                            認証コードを送信
+
+                        </button>
+
+                    </form>
+
+                    <!-- 送信完了メッセージ -->
+
+                    <p th:if="${verificationMessage}"
+
+                       th:text="${verificationMessage}">
+
+                    </p>
+
+                    <!-- 認証コード送信後に表示 -->
+
+                    <div th:if="${verificationCodeSent}">
+
+                        <p class="verification-guide">
+
+                            10分以内に認証してください。
+
+                        </p>
+
+                        <p class="verification-timer">
+
+                            残り時間：
+
+                            <span id="countdown">10:00</span>
+
+                        </p>
+
+                        <!-- 認証コード入力 -->
+
+                        <form th:action="@{/account-create/verify-code}"
+
+                              method="post"
+
+                              class="verification-form">
+
+                            <label for="verificationCode">
+
+                                認証コード
+
+                            </label>
+
+                            <input type="text"
+
+                                   id="verificationCode"
+
+                                   name="verificationCode"
+
+                                   maxlength="6"
+
+                                   inputmode="numeric"
+
+                                   placeholder="6桁の認証コードを入力">
+
+                            <button type="submit"
+
+                                    class="button submit-button"
+
+                                    id="verifyButton">
+
+                                認証する
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                    <!-- 認証エラー -->
+
+                    <p th:if="${verificationError}"
+
+                       class="verification-error"
+
+                       th:text="${verificationError}">
+
+                    </p>
+
+                    <!-- 認証成功 -->
+
+                    <p th:if="${emailVerified}"
+
+                       class="verification-success">
+
+                        メールアドレスの認証が完了しました。
+
+                    </p>
 
                 </div>
 
-
-
-				<!-- ========================================
-
-				     メールアドレス認証
-
-				     \======================================== -->
-
-				<div class="email-verification">
-
-
-
-				    <h2 class="section-title">
-
-				        メールアドレス認証
-
-				    </h2>
-
-
-
-				    <!-- 認証コード送信 -->
-
-				    <form th:action="@{/account-create/send-code}"
-
-				          method="post">
-
-
-
-				        <button type="submit"
-
-				                class="button submit-button">
-
-				            認証コードを送信
-
-				        </button>
-
-
-
-				    </form>
-
-
-
-				    <!-- 送信完了メッセージ -->
-
-				    <p th:if="${verificationMessage}"
-
-				       th:text="${verificationMessage}">
-
-				    </p>
-
-
-
-					<!-- 認証コード送信後に表示 -->
-
-					<div th:if="${verificationCodeSent}">
-
-
-
-					    <p class="verification-guide">
-
-					        10分以内に認証してください。
-
-					    </p>
-
-
-
-					    <p class="verification-timer">
-
-					        残り時間：
-
-					        <span id="countdown">10:00</span>
-
-					    </p>
-
-
-
-					    <!-- 認証コード入力 -->
-
-					    <form th:action="@{/account-create/verify-code}"
-
-					          method="post"
-
-					          class="verification-form">
-
-
-
-					        <label for="verificationCode">
-
-					            認証コード
-
-					        </label>
-
-
-
-					        <input type="text"
-
-					               id="verificationCode"
-
-					               name="verificationCode"
-
-					               maxlength="6"
-
-					               inputmode="numeric"
-
-					               placeholder="6桁の認証コードを入力">
-
-
-
-					        <button type="submit"
-
-					                class="button submit-button"
-
-									id="verifyButton">
-
-					            認証する
-
-					        </button>
-
-
-
-					    </form>
-
-
-
-					</div>
-
-
-
-				    <!-- 認証エラー -->
-
-				    <p th:if="${verificationError}"
-
-				       class="verification-error"
-
-				       th:text="${verificationError}">
-
-				    </p>
-
-
-
-				    <!-- 認証成功 -->
-
-				    <p th:if="${emailVerified}"
-
-				       class="verification-success">
-
-				        メールアドレスの認証が完了しました。
-
-				    </p>
-
-
-
-				</div>
-
-
-
             </div>
-
-
-
-
 
             <!-- ========================================
 
@@ -792,25 +578,17 @@
 
             <div th:if="${accountCreateDto.paidPlanFlg}">
 
-
-
                 <h2 class="section-title">
 
                     口座情報
 
                 </h2>
 
-
-
                 <div class="confirm-list">
-
-
 
                     <!-- 銀行名 -->
 
                     <div class="confirm-row">
-
-
 
                         <div class="confirm-label">
 
@@ -818,27 +596,17 @@
 
                         </div>
 
-
-
                         <div class="confirm-value"
 
                              th:text="${accountCreateDto.bankName}">
 
                         </div>
 
-
-
                     </div>
-
-
-
-
 
                     <!-- 口座番号 -->
 
                     <div class="confirm-row">
-
-
 
                         <div class="confirm-label">
 
@@ -846,27 +614,17 @@
 
                         </div>
 
-
-
                         <div class="confirm-value"
 
                              th:text="${accountCreateDto.accountNumber}">
 
                         </div>
 
-
-
                     </div>
-
-
-
-
 
                     <!-- 口座名義 -->
 
                     <div class="confirm-row">
-
-
 
                         <div class="confirm-label">
 
@@ -874,29 +632,17 @@
 
                         </div>
 
-
-
                         <div class="confirm-value"
 
                              th:text="${accountCreateDto.accountHolder}">
 
                         </div>
 
-
-
                     </div>
-
-
 
                 </div>
 
-
-
             </div>
-
-
-
-
 
             <!-- ========================================
 
@@ -906,8 +652,6 @@
 
             <div class="button-row">
 
-
-
                 <!-- 入力画面へ戻る -->
 
                 <form th:action="@{/account-create/back}"
@@ -915,8 +659,6 @@
                       method="post"
 
                       style="flex: 1;">
-
-
 
                     <button type="submit"
 
@@ -926,13 +668,7 @@
 
                     </button>
 
-
-
                 </form>
-
-
-
-
 
                 <!-- アカウント登録 -->
 
@@ -944,39 +680,25 @@
 
                       style="flex: 1;">
 
+                    <button type="submit"
 
+                            class="button submit-button"
 
-					<button type="submit"
+                            id="registerButton"
 
-					        class="button submit-button"
+                            th:disabled="${emailVerified != true}">
 
-					        id="registerButton"
+                        登録する
 
-					        th:disabled="${emailVerified != true}">
-
-					    登録する
-
-					</button>
-
-
+                    </button>
 
                 </form>
 
-
-
             </div>
-
-
 
         </div>
 
-
-
     </main>
-
-
-
-
 
     <!-- ========================================
 
@@ -984,175 +706,125 @@
 
          \======================================== -->
 
-		 <script th:inline="javascript">
+         <script th:inline="javascript">
 
+             // 登録ボタンの二重送信を防止する
 
+             document
 
-		     // 登録ボタンの二重送信を防止する
+                 .getElementById("registerForm")
 
-		     document
+                 .addEventListener("submit", function () {
 
-		         .getElementById("registerForm")
+                     const button =
 
-		         .addEventListener("submit", function () {
+                         document.getElementById("registerButton");
 
+                     button.disabled = true;
 
+                     button.textContent = "登録中...";
 
-		             const button =
+                 });
 
-		                 document.getElementById("registerButton");
+             // ========================================
 
+             // 認証コードの残り時間を表示する
 
+             // ========================================
 
-		             button.disabled = true;
+             const expireAtText =
 
-		             button.textContent = "登録中...";
+                 /*[[${verificationExpireAt}]]*/ null;
 
-		         });
+             const countdown =
 
+                 document.getElementById("countdown");
 
+             const verificationCode =
 
+                 document.getElementById("verificationCode");
 
+             const verifyButton =
 
-		     // ========================================
+                 document.getElementById("verifyButton");
 
-		     // 認証コードの残り時間を表示する
+             if (expireAtText && countdown) {
 
-		     // ========================================
+                 // サーバーから受け取った有効期限
 
+                 const expireAt =
 
+                     new Date(expireAtText);
 
-		     const expireAtText =
+                 function updateCountdown() {
 
-		         /*[[${verificationExpireAt}]]*/ null;
+                     // 現在時刻
 
+                     const now =
 
+                         new Date();
 
-		     const countdown =
+                     // 有効期限までの残り時間（ミリ秒）
 
-		         document.getElementById("countdown");
+                     const remaining =
 
+                         expireAt.getTime() - now.getTime();
 
+                         if (remaining <= 0) {
 
-			 const verificationCode =
+                             countdown.textContent = "00:00";
 
-				 document.getElementById("verificationCode");
+                             clearInterval(timerId);
 
+                             // 認証コード入力欄を無効化
 
+                             if (verificationCode) {
 
-	 		 const verifyButton =
+                                 verificationCode.disabled = true;
 
-				 document.getElementById("verifyButton");				 
+                             }
 
+                             // 認証ボタンを無効化
 
+                             if (verifyButton) {
 
-		     if (expireAtText && countdown) {
+                                 verifyButton.disabled = true;
 
+                             }
 
+                             return;
 
-		         // サーバーから受け取った有効期限
+                         }
 
-		         const expireAt =
+                     // 残り秒数
 
-		             new Date(expireAtText);
+                     const totalSeconds =
 
+                         Math.ceil(remaining / 1000);
 
+                     // 分
 
-		         function updateCountdown() {
+                     const minutes =
 
+                         Math.floor(totalSeconds / 60);
 
+                     // 秒
 
-		             // 現在時刻
+                     const seconds =
 
-		             const now =
+                         totalSeconds % 60;
 
-		                 new Date();
+                     // 09:05 のような形式に変換
 
+                     countdown.textContent =
 
+                         String(minutes).padStart(2, "0")
 
-		             // 有効期限までの残り時間（ミリ秒）
+                         + ":"
 
-		             const remaining =
+                         + String(seconds).padStart(2, "0");
 
-		                 expireAt.getTime() - now.getTime();
-
-
-
-						 if (remaining <= 0) {
-
-
-
-						     countdown.textContent = "00:00";
-
-
-
-							 clearInterval(timerId);
-
-
-
-						     // 認証コード入力欄を無効化
-
-						     if (verificationCode) {
-
-						         verificationCode.disabled = true;
-
-						     }
-
-
-
-						     // 認証ボタンを無効化
-
-						     if (verifyButton) {
-
-						         verifyButton.disabled = true;
-
-						     }
-
-
-
-						     return;
-
-						 }
-
-
-
-		             // 残り秒数
-
-		             const totalSeconds =
-
-		                 Math.ceil(remaining / 1000);
-
-
-
-		             // 分
-
-		             const minutes =
-
-		                 Math.floor(totalSeconds / 60);
-
-
-
-		             // 秒
-
-		             const seconds =
-
-		                 totalSeconds % 60;
-
-
-
-		             // 09:05 のような形式に変換
-
-		             countdown.textContent =
-
-		                 String(minutes).padStart(2, "0")
-
-		                 + ":"
-
-		                 + String(seconds).padStart(2, "0");
-
-		         }
-
-
+                 }
 
          // タイマーID
          let timerId = null;
@@ -1169,13 +841,9 @@
              );
          }
 
-		     }
+             }
 
-
-
-		 </script>
-
-
+         </script>
 
 </body>
 

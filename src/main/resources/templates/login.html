@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン | MoneySmile</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+                         "Noto Sans JP", sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            height: 70px;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2563eb;
+        }
+
+        .page-container {
+            display: flex;
+            justify-content: center;
+            padding: 70px 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 520px;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+        }
+
+        .title {
+            margin: 0;
+            text-align: center;
+            font-size: 28px;
+        }
+
+        .subtitle {
+            margin: 10px 0 35px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        input[type="email"],
+        input[type="password"] {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+
+
+        .login-error {
+            min-height: 20px;
+            margin: 0 0 20px;
+            color: #dc2626;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 50px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 9px;
+            background: #2563eb;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .login-button:hover {
+            background: #1d4ed8;
+        }
+
+        .login-button:disabled {
+            background: #93c5fd;
+            cursor: not-allowed;
+        }
+
+        .account-link {
+            margin-top: 25px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .account-link a {
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="logo">MoneySmile</div>
+</header>
+
+<main class="page-container">
+
+    <div class="card">
+
+        <h1 class="title">ログイン</h1>
+
+        <p class="subtitle">
+            メールアドレスとパスワードを入力してください
+        </p>
+
+        <!-- ログイン認証エラー -->
+        <p class="login-error"
+           th:text="${errorMessage != null and (focusField == 'email' or focusField == 'password')
+                    ? errorMessage
+                    : ''}">
+        </p>
+
+        <form th:action="@{/login}"
+              th:object="${loginDto}"
+              method="post"
+              novalidate>
+
+            <!-- メールアドレス -->
+            <div class="form-group">
+                <label for="email">
+                    メールアドレス
+                </label>
+
+                <input type="email"
+                       th:field="*{email}"
+                       id="email"
+                       placeholder="example@email.com">
+            </div>
+
+            <!-- パスワード -->
+            <div class="form-group">
+                <label for="password">
+                    パスワード
+                </label>
+
+                <input type="password"
+                       th:field="*{password}"
+                       id="password"
+                       placeholder="8～20文字">
+            </div>
+
+            <button type="submit"
+                    class="login-button"
+                    id="loginButton">
+                ログイン
+            </button>
+
+        </form>
+
+        <div class="account-link">
+            アカウントをお持ちでない方は
+            <a th:href="@{/account-create}">アカウント作成</a>
+        </div>
+
+    </div>
+
+</main>
+
+<script th:inline="javascript">
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.querySelector("form");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const emailError = document.getElementById("emailError");    const loginButton = document.getElementById("loginButton");
+
+    function showLoginError(message) {
+
+        const loginError =
+                document.querySelector(".login-error");
+
+        loginError.textContent = message;
+    }
+
+    function clearLoginError() {
+
+        const loginError =
+                document.querySelector(".login-error");
+
+        loginError.textContent = "";
+    }
+
+    function validateEmail(submitCheck) {
+
+        const value = email.value;
+        const trimmed = value.trim();
+
+        if (submitCheck && trimmed === "") {
+            showLoginError(
+                    "メールアドレスを入力してください。");
+            return false;
+        }
+
+        if (value.length > 20) {
+            showLoginError(
+                    "メールアドレスは20文字以内で入力してください。");
+            return false;
+        }
+
+        if (value !== "") {
+
+            const emailPattern =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(value)) {
+                showLoginError(
+                        "メールアドレスの形式が正しくありません。");
+                return false;
+            }
+        }
+
+        clearLoginError();
+        return true;
+    }
+
+    function validatePassword(submitCheck) {
+
+        if (submitCheck && password.value === "") {
+            password.focus();
+            return false;
+        }
+
+        return true;
+    }
+
+    email.addEventListener("input", function () {
+        validateEmail(false);
+    });
+
+    password.addEventListener("input", function () {
+        validatePassword(false);
+    });
+
+    form.addEventListener("submit", function (event) {
+
+        const emailValid =
+                validateEmail(true);
+
+        const passwordValid =
+                validatePassword(true);
+
+        if (!emailValid || !passwordValid) {
+
+            event.preventDefault();
+
+            if (!emailValid) {
+                email.focus();
+            } else {
+                password.focus();
+            }
+
+            return;
+        }
+
+        loginButton.disabled = true;
+        loginButton.textContent = "ログイン中...";
+    });
+
+    // サーバー側で検出した業務エラーを表示する。
+    const serverMessage =
+            /*[[${errorMessage}]]*/ null;
+
+    const serverFieldName =
+            /*[[${focusField}]]*/ null;
+
+    if (serverMessage && serverFieldName) {
+
+        if (serverMessage && serverFieldName === "email") {
+            email.focus();
+        }
+
+        if (serverMessage && serverFieldName === "password") {
+            password.focus();
+        }
+    }
+});
+</script>
+
+</body>
+</html>
