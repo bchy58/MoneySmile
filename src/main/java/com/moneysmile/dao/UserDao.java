@@ -78,7 +78,7 @@ public class UserDao {
     public User findActiveByEmail(String email) {
 
         String sql = "SELECT user_id, name, nickname, email, password, paid_plan_flg, "
-                + "bank_name, account_number, account_holder "
+                + "bank_name, account_number, account_holder, created_at "
                 + "FROM users "
                 + "WHERE email = ? "
                 + "AND delete_flg = false";
@@ -97,6 +97,7 @@ public class UserDao {
                     user.setBankName(rs.getString("bank_name"));
                     user.setAccountNumber(rs.getString("account_number"));
                     user.setAccountHolder(rs.getString("account_holder"));
+                    user.setCreatedAt(rs.getTimestamp("created_at").toLocalDateTime());
 
                     return user;
                 },
