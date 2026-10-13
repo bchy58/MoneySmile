@@ -1,18 +1,36 @@
 <!DOCTYPE html>
 
+
+
 <html lang="ja"
 
-      xmlns:th="http\://www.thymeleaf.org">
+
+
+      xmlns:th="http\\://www.thymeleaf.org">
+
+
+
+
 
 
 
 <head>
 
+
+
     <meta charset="UTF-8">
+
+
 
     <meta name="viewport"
 
+
+
           content="width=device-width, initial-scale=1.0">
+
+
+
+
 
 
 
@@ -20,380 +38,761 @@
 
 
 
+
+
+
+
     <style>
+
+
 
         * {
 
+
+
             box-sizing: border-box;
 
+
+
         }
+
+
+
+
 
 
 
         body {
 
+
+
             margin: 0;
+
+
 
             background: #f5f7fb;
 
+
+
             color: #1f2937;
+
+
 
             font-family:
 
+
+
                     -apple-system,
+
+
 
                     BlinkMacSystemFont,
 
+
+
                     "Segoe UI",
+
+
 
                     "Noto Sans JP",
 
+
+
                     sans-serif;
 
+
+
         }
+
+
+
+
 
 
 
         header {
 
+
+
             height: 70px;
+
+
 
             background: #ffffff;
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             padding: 0 40px;
+
+
 
             box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
 
+
+
         }
+
+
+
+
 
 
 
         .logo {
 
+
+
             color: #2563eb;
+
+
 
             font-size: 24px;
 
+
+
             font-weight: 700;
 
+
+
         }
+
+
+
+
 
 
 
         .page-container {
 
+
+
             max-width: 1100px;
+
+
 
             margin: 40px auto;
 
+
+
             padding: 0 20px;
 
+
+
         }
+
+
+
+
 
 
 
         .page-title {
 
+
+
             margin-bottom: 30px;
+
+
 
             text-align: center;
 
+
+
         }
+
+
+
+
 
 
 
         .page-title h1 {
 
+
+
             margin: 0 0 8px;
+
+
 
             font-size: 28px;
 
+
+
         }
+
+
+
+
 
 
 
         .page-title p {
 
+
+
             margin: 0;
+
+
 
             color: #6b7280;
 
+
+
             font-size: 14px;
 
+
+
         }
+
+
+
+
 
 
 
         .card {
 
+
+
             margin-bottom: 24px;
+
+
 
             padding: 28px;
 
+
+
             background: #ffffff;
+
+
 
             border-radius: 16px;
 
+
+
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 
+
+
         }
+
+
+
+
 
 
 
         .month-area {
 
+
+
             display: flex;
+
+
 
             align-items: center;
 
+
+
             gap: 12px;
 
+
+
         }
+
+
+
+
 
 
 
         .month-area label {
 
+
+
             font-weight: 600;
 
+
+
         }
+
+
+
+
 
 
 
         .month-area select {
 
+
+
             min-width: 160px;
+
+
 
             padding: 10px 12px;
 
+
+
             border: 1px solid #d1d5db;
+
+
 
             border-radius: 8px;
 
+
+
             background: #ffffff;
+
+
 
             font-size: 14px;
 
+
+
         }
+
+
+
+
 
 
 
         .summary {
 
+
+
             display: grid;
+
+
 
             grid-template-columns: repeat(3, 1fr);
 
+
+
             gap: 20px;
+
+
 
 			margin-bottom: 24px;
 
+
+
         }
+
+
+
+
 
 
 
         .summary-item {
 
+
+
             padding: 24px;
+
+
 
             background: #ffffff;
 
+
+
             border-radius: 16px;
+
+
 
             text-align: center;
 
+
+
             box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
 
+
+
         }
-		
+
+
+
 		/* 収入・支出サマリー */
+
         #incomeSummary,
+
         #expenseSummary {
+
             cursor: pointer;
+
             transition: transform 0.2s, box-shadow 0.2s;
+
         }
+
+
 
         #incomeSummary:hover,
+
         #expenseSummary:hover {
+
             transform: translateY(-2px);
+
             box-shadow: 0 6px 18px rgba(0, 0, 0, 0.10);
+
         }
 
-		
+
+
+
+
+
+
+
 
 
 
         .summary-label {
 
+
+
             margin-bottom: 10px;
+
+
 
             color: #6b7280;
 
+
+
             font-size: 14px;
 
+
+
         }
+
+
+
+
 
 
 
         .summary-amount {
 
+
+
             font-size: 26px;
+
+
 
             font-weight: 700;
 
+
+
         }
+
+
+
+
 
 
 
         .section-title {
 
+
+
             margin: 0 0 20px;
+
+
 
             font-size: 20px;
 
+
+
         }
+
+
+
+
 
 
 
         .table-wrapper {
 
+
+
             overflow-x: auto;
 
+
+
         }
+
+
+
+
 
 
 
         table {
 
+
+
             width: 100%;
+
+
 
             border-collapse: collapse;
 
+
+
         }
+
+
+
+
 
 
 
         th,
 
+
+
         td {
+
+
 
             padding: 14px 12px;
 
+
+
             border-bottom: 1px solid #e5e7eb;
+
+
 
             text-align: left;
 
+
+
             font-size: 14px;
 
+
+
         }
+
+
+
+
 
 
 
         th {
 
+
+
             background: #f9fafb;
+
+
 
             color: #4b5563;
 
+
+
             font-weight: 600;
 
+
+
         }
+
+
+
+
 
 
 
         .no-data {
 
+
+
             padding: 30px 0;
+
+
 
             color: #9ca3af;
 
+
+
             text-align: center;
 
+
+
         }
+
+
+
+
 
 
 
         .chart-area {
 
+
+
             display: grid;
+
+
 
             grid-template-columns: repeat(2, 1fr);
 
+
+
             gap: 24px;
 
+
+
         }
+
+
+
+
 
 
 
         .chart-box {
 
+
+
             min-height: 280px;
+
+
 
             display: flex;
 
+
+
             align-items: center;
+
+
 
             justify-content: center;
 
+
+
             border: 1px dashed #d1d5db;
+
+
 
             border-radius: 12px;
 
+
+
             color: #9ca3af;
+
+
 
         }
 
+
+
 		.summary-link {
+
 		    margin-top: 12px;
+
 		    color: #2563eb;
+
 		    font-size: 13px;
+
 		    font-weight: 600;
+
 		}
+
 @media (max-width: 768px) {
+
+
+
+
 
 
 
             header {
 
+
+
                 padding: 0 20px;
 
+
+
             }
+
+
+
+
 
 
 
             .summary {
 
+
+
                 grid-template-columns: 1fr;
 
+
+
             }
+
+
+
+
 
 
 
             .chart-area {
 
+
+
                 grid-template-columns: 1fr;
 
+
+
             }
+
+
+
+
 
 
 
             .month-area {
 
+
+
                 align-items: flex-start;
+
+
 
                 flex-direction: column;
 
+
+
             }
+
+
 
         }
 
+
+
     </style>
 
+
+
 </head>
+
+
+
+
 
 
 
@@ -401,15 +800,31 @@
 
 
 
+
+
+
+
     <header>
+
+
 
         <div class="logo">
 
+
+
             MoneySmile
+
+
 
         </div>
 
+
+
     </header>
+
+
+
+
 
 
 
@@ -417,27 +832,55 @@
 
 
 
+
+
+
+
         <div class="page-title">
+
+
 
             <h1>収支閲覧</h1>
 
+
+
             <p>月ごとの収入と支出を確認できます。</p>
+
+
 
         </div>
 
 
 
+
+
+
+
 		<!-- 対象年月 -->
+
+
 
 		<section class="card">
 
 
 
+
+
+
+
 		    <form action="/balance"
+
+
 
 		          method="get"
 
+
+
 		          id="monthForm">
+
+
+
+
 
 
 
@@ -445,59 +888,119 @@
 
 
 
+
+
+
+
 		            <label>
 
+
+
 		                対象年月
+
+
 
 		            </label>
 
 
 
+
+
+
+
 		            <!-- 対象年 -->
 
+
+
 		            <select id="targetYear"
+
+
 
 		                    name="targetYear">
 
 
 
+
+
+
+
 		                <option th:each="year : ${yearList}"
+
+
 
 		                        th:value="${year}"
 
+
+
 		                        th:text="${year + '年'}"
 
+
+
 		                        th:selected="${year == targetYear}">
+
+
 
 		                </option>
 
 
 
+
+
+
+
 		            </select>
+
+
+
+
 
 
 
 		            <!-- 対象月 -->
 
+
+
 		            <select id="targetMonth"
+
+
 
 		                    name="targetMonth">
 
 
 
+
+
+
+
 		                <option th:each="month : ${#numbers.sequence(1, 12)}"
+
+
 
 		                        th:value="${month}"
 
+
+
 		                        th:text="${month + '月'}"
 
+
+
 		                        th:selected="${month == targetMonth}">
+
+
 
 		                </option>
 
 
 
+
+
+
+
 		            </select>
+
+
+
+
 
 
 
@@ -505,216 +1008,423 @@
 
 
 
+
+
+
+
 		    </form>
 
 
 
+
+
+
+
 		</section>
+
+
+
+
 
 
 
         <!-- 収支サマリー -->
 
+
+
         <section class="summary">
 
+
+
             <!-- 今月の収入 -->
+
             <div class="summary-item"
+
                  id="incomeSummary"
+
                  onclick="toggleIncome()">
+
+
 
                 <div class="summary-label">今月の収入</div>
 
+
+
                 <div class="summary-amount"
+
                      th:text="${'¥' + #numbers.formatInteger(totalIncome, 1, 'COMMA')}">
+
                     ¥0
+
                 </div>
+
+
 
                 <div class="summary-link"
+
                      id="incomeSummaryLink">
+
                     収入明細を見る ▼
+
                 </div>
+
             </div>
 
+
+
             <!-- 今月の支出 -->
+
             <div class="summary-item"
+
                  id="expenseSummary"
+
                  onclick="toggleExpense()">
+
+
 
                 <div class="summary-label">今月の支出</div>
 
+
+
                 <div class="summary-amount"
+
                      th:text="${'¥' + #numbers.formatInteger(totalExpense, 1, 'COMMA')}">
+
                     ¥0
+
                 </div>
+
+
 
                 <div class="summary-link"
+
                      id="expenseSummaryLink">
+
                     支出明細を見る ▼
+
                 </div>
+
             </div>
 
+
+
             <!-- 収支 -->
+
             <div class="summary-item">
+
+
 
                 <div class="summary-label">収支</div>
 
+
+
                 <div class="summary-amount"
+
                      th:text="${'¥' + #numbers.formatInteger(balance, 1, 'COMMA')}">
+
                     ¥0
+
                 </div>
+
             </div>
 
+
+
         </section>
+
+
+
+
 
 
 
 		<!-- 収入一覧 -->
+
 		<section class="card"
+
 		         id="incomeSection"
+
 		         style="display: none;">
 
+
+
 		    <h2 class="section-title">
+
 		        収入
+
 		    </h2>
+
+
 
 		    <div class="table-wrapper">
 
+
+
 		        <table>
 
+
+
 		            <thead>
+
 		                <tr>
+
 		                    <th>日付</th>
+
 		                    <th>カテゴリ</th>
+
 		                    <th>金額</th>
+
 		                    <th>メモ</th>
+
 		                </tr>
+
 		            </thead>
+
+
 
 		            <tbody>
 
+
+
 		                <!-- 収入データが存在する場合 -->
+
 		                <tr th:each="income : ${incomeList}">
 
+
+
 		                    <td th:text="${#temporals.format(income.incomeDate, 'MM/dd')}">
+
 		                        10/01
+
 		                    </td>
+
+
 
 		                    <td th:text="${income.incomeCategoryName}">
+
 		                        給与
+
 		                    </td>
+
+
 
 		                    <td th:text="${'¥' + #numbers.formatInteger(income.amount, 1, 'COMMA')}">
+
 		                        ¥250,000
+
 		                    </td>
+
+
 
 		                    <td th:text="${income.memo}">
+
 		                        給料
+
 		                    </td>
 
+
+
 		                </tr>
+
+
 
 		                <!-- 収入データが存在しない場合 -->
+
 		                <tr th:if="${#lists.isEmpty(incomeList)}">
 
+
+
 		                    <td colspan="4"
+
 		                        class="no-data">
+
 		                        収入データがありません。
+
 		                    </td>
 
+
+
 		                </tr>
+
+
 
 		            </tbody>
 
+
+
 		        </table>
 
+
+
 		    </div>
+
+
 
 		</section>
 
 
+
+
+
 		<!-- 支出一覧 -->
 
+
+
 		<section class="card"
+
                  id="expenseSection"
+
                  style="display: none;">
+
+
 
             <h2 class="section-title">支出</h2>
 
+
+
             <div class="table-wrapper">
+
                 <table>
+
                     <thead>
+
                         <tr>
+
                             <th>日付</th>
+
                             <th>カテゴリ</th>
+
                             <th>金額</th>
+
                             <th>メモ</th>
+
                         </tr>
+
                     </thead>
 
+
+
                     <tbody>
+
                         <!-- 支出データが存在する場合 -->
+
                         <tr th:each="expense : ${expenseList}">
+
                             <td th:text="${#temporals.format(expense.expenseDate, 'MM/dd')}">
+
                                 10/01
+
                             </td>
+
+
 
                             <td>
+
                                 <span th:text="${expense.expenseCategoryName}">食費</span>
+
                                 <span> / </span>
+
                                 <span th:text="${expense.expenseDetailCategoryName}">外食</span>
+
                             </td>
+
+
 
                             <td th:text="${'¥' + #numbers.formatInteger(expense.amount, 1, 'COMMA')}">
+
                                 ¥3,000
+
                             </td>
+
+
 
                             <td th:text="${expense.memo}">
+
                                 ランチ
+
                             </td>
+
                         </tr>
+
+
 
                         <!-- 支出データが存在しない場合 -->
+
                         <tr th:if="${#lists.isEmpty(expenseList)}">
+
                             <td colspan="4"
+
                                 class="no-data">
+
                                 支出データがありません。
+
                             </td>
+
                         </tr>
+
                     </tbody>
+
                 </table>
+
             </div>
 
+
+
         </section>
+
+
+
+
 
 
 
         <!-- カテゴリ別割合 -->
 
+
+
         <section class="chart-area">
 
 
 
+
+
+
+
             <div class="card">
 
 
 
+
+
+
+
                 <h2 class="section-title">
+
+
 
                     カテゴリ別収入割合
 
+
+
                 </h2>
 
 
 
-                <div class="chart-box">
 
-                    グラフ表示エリア
 
+
+
+				<div class="chart-box">
+                    <canvas id="incomeChart"></canvas>
                 </div>
 
 
 
             </div>
+
+
+
+
 
 
 
@@ -722,27 +1432,55 @@
 
 
 
+
+
+
+
                 <h2 class="section-title">
 
+
+
                     カテゴリ別支出割合
+
+
 
                 </h2>
 
 
 
+
+
+
+
                 <div class="chart-box">
 
+
+
                     グラフ表示エリア
+
+
 
                 </div>
 
 
 
+
+
+
+
             </div>
+
+
+
+
 
 
 
         </section>
+
+
+
+
 
 
 
@@ -752,97 +1490,221 @@
 
 
 
-	<script>
+
+
+
+
+
+
+	    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+
+        // カテゴリ別収入集計情報をJavaScriptへ設定
+        const incomeCategorySummaryList =
+                /*[[${incomeCategorySummaryList}]]*/ [];
+
+        // 収入データが存在する場合、ドーナツグラフを表示
+        if (incomeCategorySummaryList.length > 0) {
+            const incomeLabels = incomeCategorySummaryList.map(
+                    summary => summary.categoryName);
+            const incomeData = incomeCategorySummaryList.map(
+                    summary => summary.totalAmount);
+
+            new Chart(document.getElementById("incomeChart"), {
+                type: "doughnut",
+                data: {
+                    labels: incomeLabels,
+                    datasets: [{ data: incomeData }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: "bottom" } }
+                }
+            });
+        }
+
+        /*]]>*/
+
+
+
 
 	    const targetYear =
+
 	            document.getElementById("targetYear");
 
+
+
 	    const targetMonth =
+
 	            document.getElementById("targetMonth");
 
+
+
 	    const monthForm =
+
 	            document.getElementById("monthForm");
 
+
+
 	    /**
+
 	     * 対象年変更時に収支閲覧画面を再表示する。
+
 	     */
+
 	    targetYear.addEventListener("change", function () {
+
 	        monthForm.submit();
+
 	    });
 
+
+
 	    /**
+
 	     * 対象月変更時に収支閲覧画面を再表示する。
+
 	     */
+
 	    targetMonth.addEventListener("change", function () {
+
 	        monthForm.submit();
+
 	    });
 
+
+
 	    /**
+
          * 収入一覧の表示・非表示を切り替える。
+
          */
+
         function toggleIncome() {
+
             const incomeSection =
+
                     document.getElementById("incomeSection");
+
             const expenseSection =
+
                     document.getElementById("expenseSection");
+
             const incomeSummaryLink =
+
                     document.getElementById("incomeSummaryLink");
+
             const expenseSummaryLink =
+
                     document.getElementById("expenseSummaryLink");
 
+
+
             const isClosed =
+
                     window.getComputedStyle(incomeSection).display === "none";
 
+
+
             if (isClosed) {
+
                 incomeSection.style.display = "block";
+
                 expenseSection.style.display = "none";
 
+
+
                 incomeSummaryLink.textContent =
+
                         "収入明細を閉じる ▲";
+
                 expenseSummaryLink.textContent =
+
                         "支出明細を見る ▼";
+
             } else {
+
                 incomeSection.style.display = "none";
+
                 incomeSummaryLink.textContent =
+
                         "収入明細を見る ▼";
+
             }
+
         }
+
+
 
         /**
+
          * 支出一覧の表示・非表示を切り替える。
+
          */
+
         function toggleExpense() {
+
             const incomeSection =
+
                     document.getElementById("incomeSection");
+
             const expenseSection =
+
                     document.getElementById("expenseSection");
+
             const incomeSummaryLink =
+
                     document.getElementById("incomeSummaryLink");
+
             const expenseSummaryLink =
+
                     document.getElementById("expenseSummaryLink");
 
+
+
             const isClosed =
+
                     window.getComputedStyle(expenseSection).display === "none";
 
+
+
             if (isClosed) {
+
                 expenseSection.style.display = "block";
+
                 incomeSection.style.display = "none";
 
+
+
                 expenseSummaryLink.textContent =
+
                         "支出明細を閉じる ▲";
+
                 incomeSummaryLink.textContent =
+
                         "収入明細を見る ▼";
+
             } else {
+
                 expenseSection.style.display = "none";
+
                 expenseSummaryLink.textContent =
+
                         "支出明細を見る ▼";
+
             }
+
         }
 
-    </script>	
 
 
-
+    </script>
 </body>
+
+
 
 </html>

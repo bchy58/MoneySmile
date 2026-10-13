@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.moneysmile.dao.IncomeDao;
+import com.moneysmile.dto.CategorySummaryDto;
 import com.moneysmile.dto.IncomeViewDto;
 
 /**
@@ -62,4 +63,23 @@ public class IncomeService {
 
         return totalIncome;
     }
+    
+    /**
+     * ユーザーIDと対象年月からカテゴリ別の収入集計情報を取得する。
+     *
+     * @param userId      ユーザーID
+     * @param targetYear  対象年
+     * @param targetMonth 対象月
+     * @return カテゴリ別収入集計情報一覧
+     */
+    public List<CategorySummaryDto> getCategorySummary(
+            Long userId,
+            Integer targetYear,
+            Integer targetMonth) {
+
+        return incomeDao.findCategorySummaryByUserIdAndYearMonth(
+                userId,
+                targetYear,
+                targetMonth);
+    }    
 }

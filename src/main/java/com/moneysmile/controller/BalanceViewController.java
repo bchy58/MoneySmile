@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.moneysmile.dto.CategorySummaryDto;
 import com.moneysmile.dto.ExpenseViewDto;
 import com.moneysmile.dto.IncomeViewDto;
 import com.moneysmile.entity.User;
@@ -113,6 +114,13 @@ public class BalanceViewController {
                 incomeService.calculateTotalIncome(
                         incomeList);
 
+        // ログインユーザーと対象年月からカテゴリ別の収入集計情報を取得
+        List<CategorySummaryDto> incomeCategorySummaryList =
+                incomeService.getCategorySummary(
+                        loginUser.getUserId(),
+                        targetYear,
+                        targetMonth);
+
         // ログインユーザーと対象年月から支出一覧を取得
         List<ExpenseViewDto> expenseList =
                 expenseService.getExpenseList(
@@ -153,6 +161,11 @@ public class BalanceViewController {
         model.addAttribute(
                 "totalIncome",
                 totalIncome);
+
+        // カテゴリ別の収入集計情報を画面へ設定
+        model.addAttribute(
+                "incomeCategorySummaryList",
+                incomeCategorySummaryList);
 
         // 支出一覧を画面へ設定
         model.addAttribute(
